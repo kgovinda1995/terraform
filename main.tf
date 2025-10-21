@@ -10,9 +10,7 @@ resource "aws_vpc" "dev-vpc" {
      tags = {
         Name : "dev-vpc"
         env: "dev"
-        
-
-     }
+    }
 }
 
 resource "aws_subnet" "sub-dev-1" {
@@ -29,6 +27,7 @@ resource "aws_subnet" "sub-dev-1" {
 data "aws_vpc "existing-vpc" {
     default = true
     }
+
 output "dev-vpc" {
     value = aws_vpc.dev-vpc.id
 }
@@ -36,8 +35,6 @@ output "dev-vpc" {
 output "subnet-id" {
     value = aws_subnet.sub-dev-1.id
 }
-
 output "default-vpc" {
-    value = data.existing-vpc,id
+    value = data.existing-vpc.id
 }
-
