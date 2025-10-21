@@ -36,6 +36,6 @@ output "aws-subnet-id" {
 }
 
 output "aws-default-vpc-id" {
-    value = data.aws_vpc.existing-vpc
+    value = data.aws_vpc.existing-vpc.id
 }
 
