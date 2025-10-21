@@ -35,6 +35,3 @@ output "dev-vpc" {
 output "subnet-id" {
     value = aws_subnet.sub-dev-1.id
 }
-#output "existing_vpc_id" {
-#    value = data.aws_vpc.existing_vpc.id
-#}
