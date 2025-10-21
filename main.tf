@@ -13,8 +13,8 @@ resource "aws_vpc" "dev-vpc" {
      }
 }
 
-resource "aws_subnet" "my-sub-1" {
-    vpc_id = aws_vpc.my-vpc.id
+resource "aws_subnet" "sub-dev-1" {
+    vpc_id = aws_vpc.dev-vpc.id
     cidr_block = "172.31.1.0/24"
     availability_zone = "ap-south-1a" 
     tags = {
