@@ -7,7 +7,7 @@ provider "aws" {
 resource "aws_vpc" "dev-vpc" {
      cidr_block = "172.31.0.0/16"
      tags = {
-        Name : "devlopment"
+        name : "dev-vpci"
         env: "dev"
         
      }
