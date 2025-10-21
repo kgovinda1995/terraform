@@ -6,6 +6,7 @@ provider "aws" {
 
 resource "aws_vpc" "dev-vpc" {
      cidr_block = "172.31.0.0/16"
+
      tags = {
         Name : "dev-vpc"
         env: "dev"
@@ -18,8 +19,25 @@ resource "aws_subnet" "sub-dev-1" {
     vpc_id = aws_vpc.dev-vpc.id
     cidr_block = "172.31.1.0/24"
     availability_zone = "ap-south-1a" 
+    map_public_ip_on_launch = true
     tags = {
         Name : "dev-sub-1"
         Env: "dev"
     }
 }
+
+data "aws_vpc "existing-vpc" {
+    default = true
+    }
+output "dev-vpc" {
+    value = aws_vpc.dev-vpc.id
+}
+
+output "subnet-id" {
+    value = aws_subnet.sub-dev-1.id
+}
+
+output "default-vpc" {
+    value = data.existing-vpc,id
+}
+
