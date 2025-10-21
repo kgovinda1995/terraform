@@ -24,3 +24,6 @@ resource "aws_subnet" "sub-dev-1" {
     }
 }
 
+output "aws-vpc-id" {
+    value = aws_vpc.dev-vpc.id
+}
