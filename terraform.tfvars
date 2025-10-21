@@ -1,0 +1,4 @@
+availability_zone = "ap-south-1a"
+vpc_cidr_block = "192.168.0.0/16"
+subnet_cidr_block = "192.168.1.0/24"
+environment = "dev"
