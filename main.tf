@@ -4,8 +4,8 @@ provider "aws" {
     secret_key = "eMvU5lSaURW8fN/YuO3RE/0FCt8F7dT6aoGHCx9d"
 }
 
-resource "aws_vpc" "my-vpc" {
-     cidr_block = "10.0.0.0/16"
+resource "aws_vpc" "dev-vpc" {
+     cidr_block = "172.31.0.0/16"
      tags = {
         Name : "devlopment"
         env: "dev"
@@ -15,10 +15,10 @@ resource "aws_vpc" "my-vpc" {
 
 resource "aws_subnet" "my-sub-1" {
     vpc_id = aws_vpc.my-vpc.id
-    cidr_block = "10.0.10.0/24"
+    cidr_block = "172.31.1.0/24"
     availability_zone = "ap-south-1a" 
     tags = {
-        Name : "my-sub-1"
+        Name : "dev-sub-1"
         Env: "dev"
     }
 }
