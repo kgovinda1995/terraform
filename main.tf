@@ -16,24 +16,36 @@ variable "vpc_cidr_block" {
   }
 
 variable "subnet_cidr_block" {
-    description = "subnet cidr block"
-  }  
+  type = list(string)
+}
+
 
 resource "aws_vpc" "dev-vpc" {
      cidr_block = var.vpc_cidr_block
      tags = {
-        Name : "dev-vpc"
-        Env: var.environment
+        Name : "${var.environment}-vpc"
+        Env: environment
     }
 }
 
 resource "aws_subnet" "sub-dev-1" {
     vpc_id = aws_vpc.dev-vpc.id
-    cidr_block = var.subnet_cidr_block
+    cidr_block = each.value
     availability_zone = var.availability_zone
     map_public_ip_on_launch = true
     tags = {
-        Name : "dev-sub-1"
+        Name : "${var.environment}-sub-1"
+        Env: var.environment
+    }
+}
+
+resource "aws_subnet" "sub-dev-2" {
+    vpc_id = aws_vpc.dev-vpc.id
+    cidr_block = each.value
+    availability_zone = var.availability_zone
+    map_public_ip_on_launch = true
+    tags = {
+        Name : "${var.environment}-sub-2"
         Env: var.environment
     }
 }
