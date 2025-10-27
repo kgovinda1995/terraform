@@ -20,7 +20,7 @@ variable "subnet_cidr_block" {
 }
 
 
-resource "aws_vpc" "dev-vpc" {
+resource "aws_vpc" "stage-vpc" {
      cidr_block = var.vpc_cidr_block
      tags = {
         Name : "${var.environment}-vpc"
@@ -28,8 +28,8 @@ resource "aws_vpc" "dev-vpc" {
     }
 }
 
-resource "aws_subnet" "sub-dev-1" {
-    vpc_id = aws_vpc.dev-vpc.id
+resource "aws_subnet" "sub-stage-1" {
+    vpc_id = aws_vpc.stage-vpc.id
     cidr_block = var.subnet_cidr_block[0]
     availability_zone = var.availability_zone
     map_public_ip_on_launch = true
@@ -39,8 +39,8 @@ resource "aws_subnet" "sub-dev-1" {
     }
 }
 
-resource "aws_subnet" "sub-dev-2" {
-    vpc_id = aws_vpc.dev-vpc.id
+resource "aws_subnet" "sub-stage-2" {
+    vpc_id = aws_vpc.stage-vpc.id
     cidr_block = var.subnet_cidr_block[1]
     availability_zone = var.availability_zone
     map_public_ip_on_launch = true
@@ -48,6 +48,30 @@ resource "aws_subnet" "sub-dev-2" {
         Name : "${var.environment}-sub-2"
         Env: var.environment
     }
+}
+
+
+resource "aws_route_table" "stage-rtb" {
+      vpc_id = aws_vpc.stage-vpc.id
+
+      route {
+       cidr_block = "0.0.0.0/0"
+
+       gateway_id = aws.aws_internet_gateway.id
+      }
+  
+}
+
+resource "aws_internet_gateway" "stage-igw" {
+
+    vpc_id = aws_vpc.stage-vpc.id
+
+    tags = {
+        Name : "${var.environment}-igw"
+        Env: var.environment
+    }
+}
+  
 }
 data "aws_vpc" "existing-vpc" {
    default = true
@@ -63,5 +87,13 @@ output "aws-subnet-id" {
 
 output "aws-default-vpc-id" {
     value = data.aws_vpc.existing-vpc.id
+}
+
+output "aws-igw-id" {
+    value = aws_internet_gateway.stage-igw.id
+}
+
+output "aws-rtb-id" {
+    value = aws_route_table.stage-rtb.id
 }
 
