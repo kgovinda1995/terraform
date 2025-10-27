@@ -71,8 +71,7 @@ resource "aws_internet_gateway" "stage-igw" {
         Env: var.environment
     }
 }
-  
-}
+
 data "aws_vpc" "existing-vpc" {
    default = true
 }
