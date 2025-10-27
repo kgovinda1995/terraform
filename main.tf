@@ -57,7 +57,7 @@ resource "aws_route_table" "stage-rtb" {
       route {
        cidr_block = "0.0.0.0/0"
 
-       gateway_id = aws.aws_internet_gateway.id
+       gateway_id = aws_internet_gateway.stage-igw.id
       }
   
 }
@@ -77,11 +77,15 @@ data "aws_vpc" "existing-vpc" {
 }
 
 output "aws-vpc-id" {
-    value = aws_vpc.dev-vpc.id
+    value = aws_vpc.stage-vpc.id
 }
 
-output "aws-subnet-id" {
-    value = aws_subnet.sub-dev-1.id
+output "aws-subnet-id-1" {
+    value = aws_subnet.sub-stage-1.id
+}
+
+output "aws-subnet-id-2" {
+    value = aws_subnet.sub-stage-2.id   
 }
 
 output "aws-default-vpc-id" {
