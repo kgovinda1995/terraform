@@ -30,7 +30,7 @@ resource "aws_vpc" "dev-vpc" {
 
 resource "aws_subnet" "sub-dev-1" {
     vpc_id = aws_vpc.dev-vpc.id
-    cidr_block = each.value
+    cidr_block = var.subnet_cidr_block[0]
     availability_zone = var.availability_zone
     map_public_ip_on_launch = true
     tags = {
@@ -41,7 +41,7 @@ resource "aws_subnet" "sub-dev-1" {
 
 resource "aws_subnet" "sub-dev-2" {
     vpc_id = aws_vpc.dev-vpc.id
-    cidr_block = each.value
+    cidr_block = var.subnet_cidr_block[1]
     availability_zone = var.availability_zone
     map_public_ip_on_launch = true
     tags = {
