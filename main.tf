@@ -24,7 +24,7 @@ resource "aws_vpc" "dev-vpc" {
      cidr_block = var.vpc_cidr_block
      tags = {
         Name : "${var.environment}-vpc"
-        Env: environment
+        Env: var.environment
     }
 }
 
