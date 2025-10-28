@@ -119,6 +119,29 @@ resource "aws_security_group" "stage-sg" {
   
 }
 
+data "aws_ami" "latest-ubuntu-image-id" {
+    most_recent = true
+    owners = [ "amazon" ]
+    filter {
+        name = "name"
+        values = [ "Ubuntu-*LTS" ]
+    }
+    filter {
+        name = "Root device type"
+        values = [ "ebs" ]
+    }
+    filter {
+        name = "Virtualization"
+        values = [ "hvm" ]
+    }
+
+      filter {
+        name = "architecture "
+        values = [ "x86)" ]
+    }
+
+}
+
 data "aws_vpc" "existing-vpc" {
    default = true
 }
@@ -145,5 +168,9 @@ output "aws-igw-id" {
 
 output "aws-rtb-id" {
     value = aws_route_table.stage-rtb.id
+}
+
+output "aws-ami-id" {
+    value = data.aws_ami.latest-ubuntu-image-id
 }
 
