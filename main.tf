@@ -143,7 +143,11 @@ data "aws_ami" "latest-ubuntu-image" {
     }
 
 }
-
+resource "aws_key_pair" "my-terraform" {
+   key_name = "my-terraform"
+   public_key = file(var.public_key_location)
+  
+}
 resource "aws_instance" "stage-server" {
     ami = data.aws_ami.latest-ubuntu-image.id
     instance_type = var.instance_type
