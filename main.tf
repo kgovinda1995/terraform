@@ -4,20 +4,17 @@ provider "aws" {
     secret_key = "eMvU5lSaURW8fN/YuO3RE/0FCt8F7dT6aoGHCx9d"
 }
 
-variable "availability_zone" {
-    description = "availability_zone"
-  }
+variable availability_zone {}
 
-variable "environment" {
-    description = "environment"
-  }  
-variable "vpc_cidr_block" {
-    description = "vpc cidr block"
-  }
+variable environment {}  
+
+variable vpc_cidr_block {}
 
 variable "subnet_cidr_block" {
   type = list(string)
 }
+
+variable my_ip {}
 
 
 resource "aws_vpc" "stage-vpc" {
@@ -60,7 +57,7 @@ resource "aws_internet_gateway" "stage-igw" {
     }
 }
 
-resource "aws_default_route_table" "default-stage-rtb" {
+/*resource "aws_default_route_table" "default-stage-rtb" {
     default_route_table_id = aws_vpc.stage-vpc.default_route_table_id
 
       route {
@@ -69,8 +66,8 @@ resource "aws_default_route_table" "default-stage-rtb" {
        gateway_id = aws_internet_gateway.stage-igw.id
       }
   
-}
-/*resource "aws_route_table" "stage-rtb" {
+}*/
+resource "aws_route_table" "stage-rtb" {
       vpc_id = aws_vpc.stage-vpc.id
 
       route {
@@ -79,16 +76,48 @@ resource "aws_default_route_table" "default-stage-rtb" {
        gateway_id = aws_internet_gateway.stage-igw.id
       }
   
-}*/
+}
 
-/*resource "aws_route_table_association" "a-rtb-subnet-1" {
+resource "aws_route_table_association" "a-rtb-subnet-1" {
          subnet_id = aws_subnet.sub-stage-1.id
          route_table_id = aws_route_table.stage-rtb.id
 }
 resource "aws_route_table_association" "a-rtb-subnet-2" {
          subnet_id = aws_subnet.sub-stage-2.id
          route_table_id = aws_route_table.stage-rtb.id
-}*/
+}
+
+resource "aws_security_group" "stage-sg" {
+    name = "stage-sg"
+    vpc_id = aws_vpc.stage-vpc.id
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = [ var.my_ip]
+    }
+   
+    ingress {
+        from_port = 0
+        to_port = 366555
+        protocol = "tcp"
+        cidr_blocks = [ "0.0.0.0/0" ]
+    }
+  
+   egress {
+        from_port = 0
+        to_port = 366555
+        protocol = "tcp"
+        cidr_blocks = [ "0.0.0.0/0" ]
+    }
+
+     tags = {
+        Name : "${var.environment}-sg"
+        Env: var.environment
+    }
+  
+}
 
 data "aws_vpc" "existing-vpc" {
    default = true
@@ -114,7 +143,7 @@ output "aws-igw-id" {
     value = aws_internet_gateway.stage-igw.id
 }
 
-/*output "aws-rtb-id" {
+output "aws-rtb-id" {
     value = aws_route_table.stage-rtb.id
-}*/
+}
 
