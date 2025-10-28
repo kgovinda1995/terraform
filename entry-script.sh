@@ -1,8 +1,8 @@
 #!/bin/bash
-    apt update -y
-    apt install -y docker.io
-    systemctl start docker
-    systemctl enable docker
-    usermod -aG docker ubuntu
-    echo "Docker installed successfully on $(hostname)" > /home/ubuntu/docker_setup.log
-    docker run -d -p 8080:80 nginx
+sudo apt update -y
+sudo apt install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ubuntu
+sudo echo "Docker installed successfully on $(hostname)" > /home/ubuntu/docker_setup.log
+sudo docker run -d -p 8080:80 nginx
