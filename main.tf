@@ -145,8 +145,8 @@ data "aws_ami" "latest-ubuntu-image" {
     }
 
 }
-resource "aws_key_pair" "my-terraform" {
-   key_name = "my-terraform"
+resource "aws_key_pair" "my-terraform-1" {
+   key_name = "my-terraform-1"
    public_key = file(var.public_key_location)
   
 }
@@ -156,7 +156,7 @@ resource "aws_instance" "stage-server" {
 
     subnet_id = aws_subnet.sub-stage-1.id
     vpc_security_group_ids = [ aws_security_group.stage-sg.id ]
-    key_name = "my-terraform"
+    key_name = "my-terraform-1"
     availability_zone = var.availability_zone
     associate_public_ip_address = true
 
