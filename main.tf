@@ -127,11 +127,11 @@ data "aws_ami" "latest-ubuntu-image-id" {
         values = [ "Ubuntu-*LTS" ]
     }
     filter {
-        name = "Root device type"
+        name = "root device type"
         values = [ "ebs" ]
     }
     filter {
-        name = "Virtualization-type"
+        name = "virtualization-type"
         values = [ "hvm" ]
     }
 
