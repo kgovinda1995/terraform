@@ -127,7 +127,7 @@ data "aws_ami" "latest-ubuntu-image-id" {
         values = [ "Ubuntu-*LTS" ]
     }
     filter {
-        name = "root device type"
+        name = "root-device-type"
         values = [ "ebs" ]
     }
     filter {
