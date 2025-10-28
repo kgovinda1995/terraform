@@ -71,11 +71,11 @@ resource "aws_internet_gateway" "stage-igw" {
         Env: var.environment
     }
 }
-resource "aws_route_table_association" "a-rtb-subnet" {
+resource "aws_route_table_association" "a-rtb-subnet-1" {
          subnet_id = aws_subnet.sub-stage-1.id
          route_table_id = aws_route_table.stage-rtb.id
 }
-resource "aws_route_table_association" "a-rtb-subnet" {
+resource "aws_route_table_association" "a-rtb-subnet-2" {
          subnet_id = aws_subnet.sub-stage-2.id
          route_table_id = aws_route_table.stage-rtb.id
 }
