@@ -16,6 +16,8 @@ variable "subnet_cidr_block" {
 
 variable my_ip {}
 
+variable instance_type {}
+
 
 resource "aws_vpc" "stage-vpc" {
      cidr_block = var.vpc_cidr_block
@@ -142,6 +144,23 @@ data "aws_ami" "latest-ubuntu-image" {
 
 }
 
+resource "aws_instance" "stage-server" {
+    ami = data.aws_ami.latest-ubuntu-image.id
+    instance_type = var.instance_type
+
+    subnet_id = aws_subnet.sub-stage-1.id
+    vpc_security_group_ids = [ aws_security_group.stage-sg.id ]
+    key_name = "my-terraform"
+    availability_zone = var.availability_zone
+    associate_public_ip_address = true
+
+     tags = {
+        Name : "${var.environment}-server"
+        Env: var.environment
+    }
+  
+}
+
 data "aws_vpc" "existing-vpc" {
    default = true
 }
@@ -174,3 +193,6 @@ output "aws-ami-id" {
     value = data.aws_ami.latest-ubuntu-image.id
 }
 
+output "aws-instance-id" {
+    value = aws_instance.stage-server.id
+}
