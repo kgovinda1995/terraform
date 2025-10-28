@@ -161,16 +161,7 @@ resource "aws_instance" "stage-server" {
     associate_public_ip_address = true
 
 
-    user_data = <<-EOF
-      #!/bin/bash
-      apt update -y
-      apt install -y docker.io
-      systemctl start docker
-      systemctl enable docker
-      usermod -aG docker ubuntu
-      echo "Docker installed successfully on $(hostname)" > /home/ubuntu/docker_setup.log
-      docker run -d -p 80:80 nginx
-    EOF
+    user_data = file("entry-script.sh")
 
      tags = {
         Name : "${var.environment}-server"
