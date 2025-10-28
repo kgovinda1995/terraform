@@ -131,7 +131,7 @@ data "aws_ami" "latest-ubuntu-image-id" {
         values = [ "ebs" ]
     }
     filter {
-        name = "Virtualization"
+        name = "Virtualization-type"
         values = [ "hvm" ]
     }
 
