@@ -171,6 +171,6 @@ output "aws-rtb-id" {
 }
 
 output "aws-ami-id" {
-    value = data.aws_ami.latest-ubuntu-image-id
+    value = data.aws_ami.latest-ubuntu-image.id
 }
 
