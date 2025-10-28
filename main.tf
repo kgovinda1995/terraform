@@ -124,7 +124,7 @@ data "aws_ami" "latest-ubuntu-image-id" {
     owners = [ "amazon" ]
     filter {
         name = "name"
-        values = [ "Ubuntu-*LTS" ]
+        values = [ "ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*" ]
     }
     filter {
         name = "root-device-type"
