@@ -137,7 +137,7 @@ data "aws_ami" "latest-ubuntu-image-id" {
 
       filter {
         name = "architecture"
-        values = [ "x86" ]
+        values = [ "x86_64" ]
     }
 
 }
