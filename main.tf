@@ -160,6 +160,17 @@ resource "aws_instance" "stage-server" {
     availability_zone = var.availability_zone
     associate_public_ip_address = true
 
+
+    user_data = <<EOF
+                #!/bin/bash
+                sudo apt-get update -y && sudo apt-get install docker -y
+                sudo systemctl start docker
+                sudo usermod -aG docker ubuntu
+                docker run -p 8080:80 nginx
+                docker --info
+                
+                EOF
+
      tags = {
         Name : "${var.environment}-server"
         Env: var.environment
