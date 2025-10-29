@@ -19,6 +19,7 @@ variable my_ip {}
 variable instance_type {}
 
 variable public_key_location {}
+variable private_key_location {}
 
 
 resource "aws_vpc" "stage-vpc" {
@@ -160,8 +161,22 @@ resource "aws_instance" "stage-server" {
     availability_zone = var.availability_zone
     associate_public_ip_address = true
 
-   user_data = file("entry-script.sh") 
-      
+  # user_data = file("entry-script.sh") 
+
+  connection {
+     type = "ssh"
+     host = self.public_ip
+     user = "ubuntu"
+     private_key = file(var.private_key_location)
+  }
+provisioner "remote-exec" {
+  
+  inline = [ 
+       "( echo "my name is govinda >> info.txt" )",
+       "docker info"
+
+   ]
+}
 
      tags = {
         Name : "${var.environment}-server"
