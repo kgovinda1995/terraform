@@ -5,6 +5,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y docker.io
 systemctl enable docker
 systemctl start docker
 sudo usermod -aG docker ubuntu
+sudo usermod -aG docker root
 systemctl enable docker
 systemctl start docker
 
