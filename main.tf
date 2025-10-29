@@ -169,14 +169,32 @@ resource "aws_instance" "stage-server-1" {
      user = "ubuntu"
      private_key = file(var.private_key_location)
   }
-provisioner "remote-exec" {
+/*provisioner "remote-exec" {
   
   inline = [ 
        "mkdir govinda",
        "touch govinda.txt1..4"
 
    ]
-}
+}*/ 
+
+   provisioner "file" {
+       source = "entry-script.sh"
+       destination = "/home/ubuntu/entry-script-on-ubuntu.sh"
+ }
+    provisioner "remote-exec" {
+
+        script = file("entry-scriptfile-on-ubuntu.sh")
+      
+    }
+
+    provisioner "local-exec" {
+
+        command = "echo ${self.public_ip} > text.txt"
+        command = "curl ${self.public_ip}:8090"
+       
+      
+    }
 
      tags = {
         Name : "${var.environment}-server"
