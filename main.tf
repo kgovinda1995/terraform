@@ -191,7 +191,7 @@ resource "aws_instance" "stage-server-1" {
     provisioner "local-exec" {
 
         command = "echo ${self.public_ip} > text.txt"
-        command = "curl ${self.public_ip}:8090"
+       
        
       
     }
