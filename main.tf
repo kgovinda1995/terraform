@@ -150,7 +150,7 @@ resource "aws_key_pair" "my-terraform-1" {
    public_key = file(var.public_key_location)
   
 }
-resource "aws_instance" "stage-server-1" {
+resource "aws_instance" "stage-server" {
     ami = data.aws_ami.latest-ubuntu-image.id
     instance_type = var.instance_type
 
@@ -164,7 +164,7 @@ resource "aws_instance" "stage-server-1" {
       
 
      tags = {
-        Name : "${var.environment}-server-1"
+        Name : "${var.environment}-server"
         Env: var.environment
     }
   
@@ -203,9 +203,9 @@ output "aws-ami-id" {
 }
 
 output "aws-instance-id" {
-    value = aws_instance.stage-server-1.id
+    value = aws_instance.stage-server.id
 }
 
 output "aws-ec2-public-ip" {
-    value = aws_instance.stage-server-1.public_ip
+    value = aws_instance.stage-server.public_ip
 }
