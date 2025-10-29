@@ -150,7 +150,7 @@ resource "aws_key_pair" "my-terraform-1" {
    public_key = file(var.public_key_location)
   
 }
-resource "aws_instance" "stage-server" {
+resource "aws_instance" "stage-server-1" {
     ami = data.aws_ami.latest-ubuntu-image.id
     instance_type = var.instance_type
 
@@ -160,11 +160,21 @@ resource "aws_instance" "stage-server" {
     availability_zone = var.availability_zone
     associate_public_ip_address = true
 
-
-    user_data = file("entry-script.sh")
+   user_data = <<-EOF
+            #!/bin/bash
+            sleep 30
+            apt-get update -y
+            DEBIAN_FRONTEND=noninteractive apt-get install -y docker.io
+            systemctl enable docker
+            systemctl start docker
+            usermod -aG docker ubuntu
+            sleep 10
+            docker run -d -p 8080:80 nginx
+        EOF  
+      
 
      tags = {
-        Name : "${var.environment}-server"
+        Name : "${var.environment}-server-1"
         Env: var.environment
     }
   
@@ -203,9 +213,9 @@ output "aws-ami-id" {
 }
 
 output "aws-instance-id" {
-    value = aws_instance.stage-server.id
+    value = aws_instance.stage-server-1.id
 }
 
 output "aws-ec2-public-ip" {
-    value = aws_instance.stage-server.public_ip
+    value = aws_instance.stage-server-1.public_ip
 }
