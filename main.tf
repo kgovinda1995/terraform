@@ -172,7 +172,7 @@ resource "aws_instance" "stage-server" {
 provisioner "remote-exec" {
   
   inline = [ 
-       "( echo "my name is govinda >> info.txt" )",
+       "echo my name is govinda >> info.txt",
        "docker info"
 
    ]
