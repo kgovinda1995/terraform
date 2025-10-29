@@ -184,7 +184,7 @@ resource "aws_instance" "stage-server-1" {
  }
     provisioner "remote-exec" {
 
-        script = file("entry-scriptfile-on-ubuntu.sh")
+        script = file("/home/ubuntu/entry-scriptfile-on-ubuntu.sh")
       
     }
 
