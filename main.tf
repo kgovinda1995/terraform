@@ -160,17 +160,7 @@ resource "aws_instance" "stage-server-1" {
     availability_zone = var.availability_zone
     associate_public_ip_address = true
 
-   user_data = <<-EOF
-            #!/bin/bash
-            sleep 30
-            apt-get update -y
-            DEBIAN_FRONTEND=noninteractive apt-get install -y docker.io
-            systemctl enable docker
-            systemctl start docker
-            usermod -aG docker ubuntu
-            sleep 10
-            docker run -d -p 8080:80 nginx
-        EOF  
+   user_data = file("entry-script.sh") 
       
 
      tags = {

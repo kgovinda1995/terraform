@@ -8,4 +8,4 @@ sudo usermod -aG docker ubuntu
 systemctl enable docker
 systemctl start docker
 
-sudo docker run -d -p 8080:80 nginx
+sudo docker run -d -p 8090:80 nginx
