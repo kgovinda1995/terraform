@@ -182,11 +182,12 @@ resource "aws_instance" "stage-server-1" {
        source = "entry-script.sh"
        destination = "/home/ubuntu/entry-script-on-ubuntu.sh"
  }
-    provisioner "remote-exec" {
-
-        script = file("/home/ubuntu/entry-scriptfile-on-ubuntu.sh")
-      
-    }
+     provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/ubuntu/entry-script-on-ubuntu.sh",
+      "sudo bash /home/ubuntu/entry-script-on-ubuntu.sh"
+    ]
+  }
 
     provisioner "local-exec" {
 
